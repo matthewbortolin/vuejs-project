@@ -35,5 +35,6 @@ export default new Router({
       name: 'Update',
       component: Update
     }
-  ]
+  ],
+  mode: 'history'
 })

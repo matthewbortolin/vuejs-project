@@ -8,6 +8,7 @@ Vue.use(firebase);
 export const store = new Vuex.Store({
   state: {
     practitioners: [],
+    practitioner: {},
     modalities: [],
     user: null,
     loading: false,
@@ -19,6 +20,9 @@ export const store = new Vuex.Store({
     },
     getPractitioners: function (state) {
       return state.practitioners
+    },
+    getPractitioner: function (state) {
+      return state.practitioner
     },
     getModalities: function (state) {
       return state.modalities
@@ -33,6 +37,9 @@ export const store = new Vuex.Store({
   mutations: {
     setPractitioners (state, payload) {
       state.practitioners = payload
+    },
+    setPractitioner(state, payload) {
+      state.practitioner = payload
     },
     setModalities (state, payload) {
       state.modalities = payload
@@ -121,6 +128,9 @@ export const store = new Vuex.Store({
     },
     setUser ({commit}, payload) {
       commit('setUser', payload)
+    },
+    setPractitioner ({commit}, payload) {
+      commit('setPractitioner', payload)
     },
     clearError ({commit}) {
       commit('clearError') 
