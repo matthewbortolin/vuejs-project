@@ -8,7 +8,6 @@ Vue.use(firebase);
 export const store = new Vuex.Store({
   state: {
     practitioners: [],
-    practitioner: {},
     modalities: [],
     user: null,
     loading: false,
@@ -22,7 +21,9 @@ export const store = new Vuex.Store({
       return state.practitioners
     },
     getPractitioner: function (state) {
-      return state.practitioner
+      return name => state.practitioners.find((practitioner) => {
+        return practitioner.name === name
+      })
     },
     getModalities: function (state) {
       return state.modalities
@@ -37,9 +38,6 @@ export const store = new Vuex.Store({
   mutations: {
     setPractitioners (state, payload) {
       state.practitioners = payload
-    },
-    setPractitioner(state, payload) {
-      state.practitioner = payload
     },
     setModalities (state, payload) {
       state.modalities = payload
@@ -64,6 +62,18 @@ export const store = new Vuex.Store({
     },
     clearError (state) {
       state.errorMsg = null
+    },
+    setPrice (state, payload) {
+      state.user.price = payload.price
+    },
+    setShortDescription (state, payload) {
+      state.user.shortDescription = payload.shortDesc
+    },
+    setLongDescription (state, payload) {
+      state.user.longDescription = payload.longDesc
+    },
+    setAvailability (state, payload) {
+      state.user.availability = payload.availability
     }
   },
   actions: {
@@ -129,11 +139,28 @@ export const store = new Vuex.Store({
     setUser ({commit}, payload) {
       commit('setUser', payload)
     },
-    setPractitioner ({commit}, payload) {
-      commit('setPractitioner', payload)
-    },
     clearError ({commit}) {
       commit('clearError') 
+    },
+    updatePrice ({commit}, payload) {
+      firebase.database().ref('practitioners')
+        .child(payload.id).child('price').set(payload.price)
+      commit('setPrice', payload)
+    },
+    updateShortDescription ({commit}, payload) {
+      firebase.database().ref('practitioners')
+        .child(payload.id).child('shortDescription').set(payload.shortDesc)
+      commit('setShortDescription', payload)
+    },
+    updateLongDescription ({commit}, payload) {
+      firebase.database().ref('practitioners')
+        .child(payload.id).child('longDescription').set(payload.longDesc)
+      commit('setLongDescription', payload)
+    },
+    updateAvailability ({commit}, payload) {
+      firebase.database().ref('practitioners')
+        .child(payload.id).child('availability').set(payload.availability)
+      commit('setAvailability', payload)
     }
   }
 })
