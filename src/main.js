@@ -13,14 +13,6 @@ import 'vuetify/dist/vuetify.min.css'
 Vue.use(Vuetify)
 Vue.config.productionTip = false
 
-// Initialise Firebase
-firebase.initializeApp({
-  apiKey: 'AIzaSyC8o9fGak_TQQFqsq5o_ZyhMWf-mk2CB0Y',
-  authDomain: 'fahf-2d5a0.firebaseapp.com',
-  databaseURL: 'https://fahf-2d5a0.firebaseio.com',
-  projectId: 'fahf-2d5a0',
-  storageBucket: 'fahf-2d5a0.appspot.com',
-})
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
@@ -29,6 +21,23 @@ new Vue({
   components: { App },
   template: '<App/>',
   created () {
+    // Initialise Firebase
+    firebase.initializeApp({
+      apiKey: 'AIzaSyC8o9fGak_TQQFqsq5o_ZyhMWf-mk2CB0Y',
+      authDomain: 'fahf-2d5a0.firebaseapp.com',
+      databaseURL: 'https://fahf-2d5a0.firebaseio.com',
+      projectId: 'fahf-2d5a0',
+      storageBucket: 'fahf-2d5a0.appspot.com',
+    })
+
+    // Check if a user is logged into firebase
+    let self = this
+    firebase.auth().onAuthStateChanged(function (user) {
+      if (user) {
+        self.$store.dispatch('setUser', user.email)
+      }
+    })
+
     // load practitioners from firebase
     this.$store.dispatch('loadPractitioners')
 
