@@ -8,7 +8,7 @@
     </v-flex>
   </v-layout>
   <h2 style='text-transform: uppercase'>Practitioners Available for {{ getDayOfTheWeek }}</h2>
-    <v-layout row wrap "min-height: 500px">
+    <v-layout row wrap style="min-height: 500px">
       <v-flex xs12 sm6 md4 v-for="prac in practitioners" :key="prac.name" 
         v-if="prac.availability[getDayOfTheWeek]">
         <v-card class="elevation-0 transparent">
@@ -49,7 +49,7 @@ export default {
     'app-loading': Loading
   },
   created () {
-    return this.getCurrentDay
+    this.getCurrentDay
   },
   methods: {
     selectedPractitioner (prac, name) {
