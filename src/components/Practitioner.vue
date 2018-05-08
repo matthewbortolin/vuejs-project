@@ -1,14 +1,17 @@
 <template>
-  <v-container>
+  <v-container fluid>
     <app-loading v-if="!practitioner"></app-loading>
-    <v-layout fluid v-if="practitioner">
-      <v-flex xs12>
-        <v-card class="elevation-0">
-          <v-card-title>
-              <h3 class="primary--text text-xs-center">{{ practitioner.name }}</h3>
+    <v-layout v-if="practitioner">
+      <v-flex xs12 lg6 offset-lg3>
+        <v-card class="elevation-0" transparent>
+          <v-flex xs12 sm4 offset-sm4>
+            <v-card-media :src="require('../assets/thumbnails/'+practitioner.profile_picture)" 
+                height="300px">
+            </v-card-media>
+          </v-flex>
+          <v-card-title class="justify-center">
+              <h2 class="primary--text">{{ practitioner.name }}</h2>
           </v-card-title>
-          <v-card-media src="" height="300px">
-          </v-card-media>
           <v-card-text>
             <p><span v-for='mod in practitioner.modalities'>{{ mod }} - </span></p>
             <p>Price: {{ practitioner.price }}</p>
