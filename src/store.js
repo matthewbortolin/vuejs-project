@@ -2,8 +2,8 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import * as firebase from 'firebase'
 
-Vue.use(Vuex);
-Vue.use(firebase);
+Vue.use(Vuex)
+Vue.use(firebase)
 
 export const store = new Vuex.Store({
   state: {
@@ -11,7 +11,7 @@ export const store = new Vuex.Store({
     modalities: [],
     user: null,
     loading: false,
-    errorMsg: ''
+    error: null
   },
   getters: {
     getUser (state) {
@@ -32,7 +32,7 @@ export const store = new Vuex.Store({
       return state.loading
     },
     error (state) {
-      return state.errorMsg
+      return state.error
     }
   },
   mutations: {
@@ -45,9 +45,9 @@ export const store = new Vuex.Store({
     setUser (state, payload) {
       const users = state.practitioners
       for (let key in users) {
-        if(payload === users[key].email) {
+        if (payload === users[key].email) {
           state.user = users[key]
-          break
+          return
         }
       }
     },
@@ -58,10 +58,10 @@ export const store = new Vuex.Store({
       state.loading = payload
     },
     setError (state, payload) {
-      state.errorMsg = payload 
+      state.error = payload
     },
     clearError (state) {
-      state.errorMsg = null
+      state.error = null
     },
     setPrice (state, payload) {
       state.user.price = payload.price
@@ -82,65 +82,65 @@ export const store = new Vuex.Store({
       commit('setLoading', true)
       // Clear error message
       commit('clearError')
-      firebase.database().ref('practitioners').on('value', function(data) {
+      firebase.database().ref('practitioners').on('value', data => {
         const practitioners = []
         const obj = data.val()
-        for(let key in obj) {
+        for (let key in obj) {
           practitioners.push(obj[key])
         }
-        commit('setLoading', false),
+        commit('setLoading', false)
         commit('setPractitioners', practitioners)
       })
     },
     // Load modalities from firebase
     loadModalities ({commit}) {
-      //set loading spinner to true
-      commit('setLoading', true),
-      //Clear error message
+      // Set loading spinner to true
+      commit('setLoading', true)
+      // Clear error message
       commit('clearError')
-      firebase.database().ref('modalities').on('value', function(data) {
+      firebase.database().ref('modalities').on('value', data => {
         const modalities = []
         const obj = data.val()
-        for(let key in obj) {
+        for (let key in obj) {
           modalities.push(obj[key])
         }
-        commit('setLoading', false),
+        commit('setLoading', false)
         commit('setModalities', modalities)
       })
     },
     signIn ({commit}, payload) {
-      //set loading spinner to true
-      commit('setLoading', true),
-      //Clear error message
+      // Set loading spinner to true
+      commit('setLoading', true)
+      // Clear error message
       commit('clearError')
 
       firebase.auth().signInWithEmailAndPassword(payload.email, payload.password)
         .then(
           user => {
             const userEmail = user.email
-            //set loading spinner to false
-            commit('setLoading', false),
+            // Set loading spinner to false
+            commit('setLoading', false)
             commit('setUser', userEmail)
           })
         .catch(error => {
-          //set loading spinner to false
-          commit('setLoading', false),
-          //Add error message
-          commit('setError', error.message)
+          // Set loading spinner to false
+          commit('setLoading', false)
+          // Add error message
+          commit('setError', error)
         })
     },
     logout ({commit}) {
       firebase.auth().signOut().then(function () {
         commit('logoutUser')
       }, function (error) {
-        commit('setError', error.message) 
+        commit('setError', error)
       })
     },
     setUser ({commit}, payload) {
       commit('setUser', payload)
     },
     clearError ({commit}) {
-      commit('clearError') 
+      commit('clearError')
     },
     updatePrice ({commit}, payload) {
       firebase.database().ref('practitioners')

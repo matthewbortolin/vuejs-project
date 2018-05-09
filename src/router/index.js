@@ -5,6 +5,7 @@ import Signin from '@/components/Signin'
 import Update from '@/components/Update'
 import Practitioners from '@/components/Practitioners'
 import Practitioner from '@/components/Practitioner'
+import Availability from '@/components/Availability'
 import AuthGuard from './auth-guard'
 
 Vue.use(Router)
@@ -26,6 +27,11 @@ export default new Router({
       name: 'Practitioner',
       props: true,
       component: Practitioner
+    },
+    {
+      path: '/availability',
+      name: 'Availability',
+      component: Availability
     },
     {
       path: '/signin',

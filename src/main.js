@@ -7,10 +7,17 @@ import * as firebase from 'firebase'
 import router from './router'
 import { store } from './store'
 
-import './stylus/main.styl'
 import 'vuetify/dist/vuetify.min.css'
+import colors from 'vuetify/es5/util/colors'
 
-Vue.use(Vuetify)
+Vue.use(Vuetify, {
+  theme: {
+    primary: colors.amber.darken1,
+    secondary: colors.indigo.accent4,
+    accent: '#8c9eff',
+    error: '#b71c1c'
+  }
+})
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */
@@ -23,11 +30,11 @@ new Vue({
   created () {
     // Initialise Firebase
     firebase.initializeApp({
-      apiKey: 'AIzaSyC8o9fGak_TQQFqsq5o_ZyhMWf-mk2CB0Y',
-      authDomain: 'fahf-2d5a0.firebaseapp.com',
-      databaseURL: 'https://fahf-2d5a0.firebaseio.com',
-      projectId: 'fahf-2d5a0',
-      storageBucket: 'fahf-2d5a0.appspot.com',
+      apiKey: '',
+      authDomain: '',
+      databaseURL: '',
+      projectId: '',
+      storageBucket: ''
     })
 
     // Check if a user is logged into firebase
@@ -43,5 +50,5 @@ new Vue({
 
     // load modalities from firebase
     this.$store.dispatch('loadModalities')
-  },
+  }
 })
